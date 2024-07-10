@@ -9,7 +9,7 @@ from rpi_lcd import LCD
 from sys import exit
 import boto3
 
-# Configure Boto3 S3 Client
+# Initialize Boto3 S3 client
 s3_client = boto3.client('s3')
 
 pir = MotionSensor(12)
@@ -40,9 +40,9 @@ def display_message_and_countdown(message, countdown, line_message, line_countdo
 def start_video_stream(filename):
     os.system(f"libcamera-vid -t 10000 --width 640 --height 480 --framerate 30 --inline --nopreview -o {filename} &")
 
-def stop_video_stream():
+def stop_video_stream(filename):
     os.system("pkill -f 'libcamera-vid'")
-    upload_to_s3('your-s3-bucket-name', filename)
+    upload_to_s3('camtestbucket1', filename)
 
 def upload_to_s3(bucket, file_path):
     try:
@@ -72,10 +72,11 @@ try:
         start_video_stream(filename)
         
         # Display message and countdown
-        display_message_and_countdown("You are being", 10, 1, 2)
-
+        display_message_and_countdown("You are being recorded", 10, 1, 2)
+        
+        sleep(10)  # Simulate recording duration
         green_led.off()
-        stop_video_stream()
+        stop_video_stream(filename)
         
         print(f"LED off and video recording saved to {filename}. Waiting for no motion.")
         pir.wait_for_no_motion()
@@ -84,4 +85,3 @@ except KeyboardInterrupt:
     pass
 finally:
     lcd.clear()
-
