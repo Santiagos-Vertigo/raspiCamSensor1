@@ -46,12 +46,11 @@ def stop_video_stream(filename):
 
 def upload_to_s3(bucket, file_path):
     try:
+        print(f"Attempting to upload {file_path} to bucket {bucket}...")
         s3_client.upload_file(file_path, bucket, os.path.basename(file_path))
         print("Upload Successful")
-    except FileNotFoundError:
-        print("The file was not found")
     except Exception as e:
-        print("Failed to upload to S3:", e)
+        print(f"Failed to upload to S3 due to {e}")
 
 def ensure_directory_exists(directory):
     if not os.path.exists(directory):
