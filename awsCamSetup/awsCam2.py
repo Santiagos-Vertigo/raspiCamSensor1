@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-#THIS VERSION IS USING mp4  VIDEOS
+#THIS VERSION IS USING mp4  VIDEOS (there is no need for conversion if going to use with openCV)
 
 from gpiozero import MotionSensor, LED
 from time import sleep
