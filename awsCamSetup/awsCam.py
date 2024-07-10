@@ -10,7 +10,7 @@ from sys import exit
 import boto3
 
 # Initialize Boto3 S3 client
-s3_client = boto3.client('s3')
+s3_client = boto3.client('s3', region_name='us-east-1')
 
 pir = MotionSensor(12)
 green_led = LED(19)
